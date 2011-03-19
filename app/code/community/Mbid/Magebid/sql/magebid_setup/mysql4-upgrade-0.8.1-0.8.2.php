@@ -14,7 +14,7 @@ $installer = $this;
 
 $installer->startSetup();
 $installer->run("
-ALTER TABLE `magebid_transaction` ADD ADD `reservation_quantity` INT NOT NULL ;
+ALTER TABLE `magebid_transaction` ADD `reservation_quantity` INT NOT NULL ;
 ALTER TABLE `magebid_auction_detail` ADD `ebay_sku` VARCHAR( 50 ) NOT NULL ;
 ALTER TABLE `magebid_transaction` ADD `order_shipping_cost` DECIMAL( 11, 2 ) NOT NULL ;
 ");
