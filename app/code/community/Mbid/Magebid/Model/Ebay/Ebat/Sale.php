@@ -100,7 +100,14 @@ class Mbid_Magebid_Model_Ebay_Ebat_Sale extends Mage_Core_Model_Abstract
 		//Shipped
 		if (isset($tasks['shipped'])) $req->setShipped(1);
 			
-        $res = $this->_sessionproxy->CompleteSale($req);
+		if(Mage::getStoreConfig('magebid/magebid_connection/activeactions'))
+        	$res = $this->_sessionproxy->CompleteSale($req);
+        else {
+        	Mage::getModel('magebid/log')->logWarning("transaction-status-change (disabled active actions)","itemid ".$transaction->getEbayItemId()." / transaction ".$transaction->getEbayTransactionId(),var_export($req,true),var_export($res,true),var_export($tasks,true));
+        	Mage::getSingleton('adminhtml/session')->addWarning("transaction-status-change (disabled active actions)");
+        	return true;
+        }
+        	
         	
 		if ($res->Ack == 'Success')
 		{			

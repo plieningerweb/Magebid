@@ -136,7 +136,15 @@ class Mbid_Magebid_Model_Ebay_Ebat_Items extends Mage_Core_Model_Abstract
 
 		//Call
 		$req->setItem($this->_ebay_item);
-		$res = $this->_sessionproxy->AddItem($req);
+		
+		if(Mage::getStoreConfig('magebid/magebid_connection/activeactions'))
+        	$res = $this->_sessionproxy->AddItem($req);
+        else {
+        	Mage::getModel('magebid/log')->logWarning("auction-add (disabled active actions)","auction ".$response['ebay_item_id'],var_export($req,true),var_export($res,true),var_export($response,true));
+        	Mage::getSingleton('adminhtml/session')->addWarning("auction-add (disabled active actions)");
+        	return false;
+        }
+		
 
 		if ($res->Ack == 'Success')
 		{
@@ -381,8 +389,14 @@ class Mbid_Magebid_Model_Ebay_Ebat_Items extends Mage_Core_Model_Abstract
 		$req->setItemID($itemid);
 		$req->setEndingReason($reason);
 
-		//Call
-		$res = $this->_sessionproxy->EndItem($req);
+		//Call		
+		if(Mage::getStoreConfig('magebid/magebid_connection/activeactions'))
+        	$res = $this->_sessionproxy->EndItem($req);
+        else {
+        	Mage::getModel('magebid/log')->logWarning("auction-end (disabled active actions)","auction ".$itemid,var_export($req,true),var_export($res,true));
+        	Mage::getSingleton('adminhtml/session')->addWarning("auction-end (disabled active actions)");
+        	return true;
+        }
 
 		if ($res->Ack == 'Success')
 		{
