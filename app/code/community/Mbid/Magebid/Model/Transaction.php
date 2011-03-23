@@ -148,10 +148,11 @@ class Mbid_Magebid_Model_Transaction extends Mage_Core_Model_Abstract
 	/**
 	 * reserve a product for a later order
 	 * just decrease the stock of the product
+	 * for magento 1.4.0.1
 	 *
 	 * @return $this
 	 */
-	private function _reserveProduct()
+	private function _reserveProduct_1_4_0_1()
 	{
 		$stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($this->getProductId());
 		$canSubtractQty = $stock->getId() && $stock->canSubtractQty();
@@ -162,6 +163,33 @@ class Mbid_Magebid_Model_Transaction extends Mage_Core_Model_Abstract
 			$this->setReservationQuantity($this->getQuantity()*1);
 		}
 
+		return $this;
+	}
+
+    /**
+	 * reserve a product for a later order
+	 * just decrease the stock of the product
+	 * for magento 1.3.2.4
+	 *
+	 * @return $this
+	 */
+	private function _reserveProduct() {
+		//@TODO	TODO	check magento version and use right function
+		//for magento 1.3.2.4
+		//source in Mage_CatalogInventory_Model_Stock::registerItemSale()
+		$stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($this->getProductId());
+		if (Mage::helper('catalogInventory')->isQty($stockItem->getTypeId())) {
+			//if ($item->getStoreId()) {
+			//   $stockItem->setStoreId($item->getStoreId());
+			//}
+			//deleted or: (you can always subtract quantity and have no problems with stocks < zero) || Mage::app()->getStore()->isAdmin()
+			if ($stockItem->checkQty($this->getQuantity()*1)) {
+                $stockItem->subtractQty($this->getQuantity()*1);
+				$stockItem->save();
+				
+				$this->setReservationQuantity($this->getQuantity()*1);
+			}
+		}
 		return $this;
 	}
 
