@@ -268,13 +268,18 @@ $this->_processed_profile_data = $ebay_settings;
 		echo 'check get seller events';
 		//just to check/understand ebay:
 		//response includes new items and modified items (also gtc items with new end date or desription change or sku change??)
-    	$time = Mage::getModel('core/date')->timestamp() - (60*60*24)*2;
+		//test result: 
+		// * update of sku	->	included in list
+		// * new end date	->	not in list (!!!)
+		//documentation
+		//includes actions such as a revision to the item (e.g., a description change), a price change (through a bid), or the ending of an item's listing.
+    	$time = Mage::getModel('core/date')->timestamp() - (60*10);
 		$from = Mage::getModel('core/date')->gmtDate(null, $time);
 		$to = Mage::getModel('core/date')->gmtDate();
 		$items = Mage::getModel('magebid/ebay_items')->getSellerEvents($from,$to);
-var_dump($from,$to,$items);
+//var_dump($from,$to,$items);
 		foreach($items as $item) {
-			if($item['ebay_item_id'] == '380149040540') {
+			if($item['ebay_item_id'] == '380117790026') {
 				var_dump($item);
 				die();
 			}
@@ -293,7 +298,7 @@ die();
      */
 	public function updateAuctions()
 	{
-		$this->updateAuctionsBySellerEvents();
+		//$this->updateAuctionsBySellerEvents();
 
 		//Get Start/End Time for startDate or ,when eanbled, endDate
 		$from1 = Mage::getModel('magebid/auction')->getResource()->getOldestStartDate();

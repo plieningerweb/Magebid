@@ -159,7 +159,7 @@ class Mbid_Magebid_Model_Transaction extends Mage_Core_Model_Abstract
 		{
 			$stock->subtractQty($this->getQuantity()*1)
 					->save();
-			$this->setReservationQuantity($this->getQuantity());
+			$this->setReservationQuantity($this->getQuantity()*1);
 		}
 
 		return $this;
