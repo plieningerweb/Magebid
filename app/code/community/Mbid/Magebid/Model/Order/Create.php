@@ -481,7 +481,7 @@ class Mbid_Magebid_Model_Order_Create extends Mage_Adminhtml_Model_Sales_Order_C
                         'label' => 'magebid',
                         'value' => 'count'.$count
 	            	);
-	            $this->_order_item->addCustomOption('additional_options',array($additional));
+	            $this->_order_item->addCustomOption('additional_options',implode(',',$additional));	
 		    }
 
 		}
