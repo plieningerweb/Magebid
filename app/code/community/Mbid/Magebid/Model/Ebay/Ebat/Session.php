@@ -53,7 +53,7 @@ class Mbid_Magebid_Model_Ebay_Ebat_Session extends Mage_Core_Model_Abstract
 		$session->setTokenMode(true);
 		$session->setTokenUsePickupFile(false);
 		$session->setRequestToken($this->__params_arr['token']);
-		$this->__sessionproxy = new EbatNs_ServiceProxy($session);	
+		$this->__sessionproxy = new Mbid_Magebid_Model_Ebay_Ebat_Proxy($session);	
 		$this->__sessionproxy->setLoggingOptions(array('LOG_TIMEPOINTS'=>false,'LOG_API_USAGE'=>false));
 		//$this->__sessionproxy->attachLogger(new EbatNs_Logger(true));
 		//$this->__sessionproxy->attachLogger(new EbatNs_Logger(true));

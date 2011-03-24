@@ -76,32 +76,46 @@ class Mbid_Magebid_Model_Transaction extends Mage_Core_Model_Abstract
 		if ($raw_transaction->TransactionID!="") $transaction_array['ebay_transaction_id'] = $raw_transaction->TransactionID;
 
 		//Basis Transaction Data
+		if(isset($raw_transaction->Buyer->UserID))
 		$transaction_array['buyer_ebay_user_id'] = $raw_transaction->Buyer->UserID;
 		$transaction_array['last_updated'] = Mage::getSingleton('core/date')->gmtDate();
+		if(isset($raw_transaction->CreatedDate))
 		$transaction_array['date_created'] = $raw_transaction->CreatedDate;
+		if(isset($raw_transaction->Status->CheckoutStatus))
 		$transaction_array['checkout_status'] = $raw_transaction->Status->CheckoutStatus;
+		if(isset($raw_transaction->Status->CompleteStatus))
 		$transaction_array['complete_status'] = $raw_transaction->Status->CompleteStatus;
 
 		//Set Payment Method
+		if(isset($raw_transaction->Status->PaymentMethodUsed))
 		$transaction_array['payment_method'] = $raw_transaction->Status->PaymentMethodUsed;
+		if(isset($raw_transaction->Status->PaymentHoldStatus))
 		$transaction_array['payment_hold_status'] = $raw_transaction->Status->PaymentHoldStatus;
+		if(isset($raw_transaction->Status->eBayPaymentStatus))
 		$transaction_array['payment_status'] = $raw_transaction->Status->eBayPaymentStatus;
 
 		//Set Shipping Method
+		if(isset($raw_transaction->ShippingServiceSelected->ShippingService))
 		$transaction_array['shipping_method'] = $raw_transaction->ShippingServiceSelected->ShippingService;
+		if(isset($raw_transaction->ShippingServiceSelected->ShippingServiceCost->value))
 		$transaction_array['shipping_cost'] = $raw_transaction->ShippingServiceSelected->ShippingServiceCost->value;
 		//@TODO TODO	do we need that? i dont think so
+		if(isset($raw_transaction->ShippingServiceSelected->ShippingServiceAdditionalCost->value))
 		$transaction_array['shipping_add_cost'] = $raw_transaction->ShippingServiceSelected->ShippingServiceAdditionalCost->value;
 
 		//Price Info
+		if(isset($raw_transaction->ConvertedTransactionPrice->value))
 		$transaction_array['single_price'] = $raw_transaction->ConvertedTransactionPrice->value;
+		if(isset($raw_transaction->QuantityPurchased))
 		$transaction_array['quantity'] = $raw_transaction->QuantityPurchased;
 		$total_price = $transaction_array['single_price']*$transaction_array['quantity'] + $transaction_array['shipping_cost'];
 		$transaction_array['total_amount'] = $total_price;
 		//$transaction_array['tax'] = $raw_transaction->ConvertedTransactionPrice->value;
 
 		//eBay Order Info
+		if(isset($raw_transaction->ContainingOrder->OrderID))
 		$transaction_array['ebay_order_id'] = $raw_transaction->ContainingOrder->OrderID;
+		if(isset($raw_transaction->ContainingOrder->OrderStatus))
 		$transaction_array['ebay_order_status'] = $raw_transaction->ContainingOrder->OrderStatus;
 
 		//Return Encoded Array

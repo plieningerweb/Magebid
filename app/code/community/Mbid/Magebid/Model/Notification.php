@@ -119,7 +119,7 @@ class Mbid_Magebid_Model_Notification extends Mage_Core_Model_Abstract
 		//[ take me some time to get it :( ]
 		//Set lower Error_Reporting
 		$old_error_reporting = error_reporting();
-		error_reporting(E_ERROR | E_PARSE);
+		//error_reporting(E_ERROR | E_PARSE);
 
 		//if we make a getItem call
 		//$this->_sessionproxy->call('GetItem',$requestObject); calls decodeMessage (file: EbatNs_Client.php)
