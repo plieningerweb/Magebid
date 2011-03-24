@@ -32,7 +32,8 @@ class Mbid_Magebid_Model_Mysql4_Transaction_Collection extends Mage_Core_Model_M
 		$this->getSelect()
             ->join(
                 array('mtu' => $this->getTable('magebid/transaction_user')),
-                'mtu.magebid_transaction_id = main_table.magebid_transaction_id');
+                'mtu.magebid_transaction_id = main_table.magebid_transaction_id')
+            ->group('main_table.magebid_transaction_id');
     }
 }
 ?>

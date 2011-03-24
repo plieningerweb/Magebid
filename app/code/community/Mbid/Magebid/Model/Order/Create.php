@@ -570,7 +570,7 @@ class Mbid_Magebid_Model_Order_Create extends Mage_Adminhtml_Model_Sales_Order_C
         if (!Mage::helper('tax')->shippingPriceIncludesTax()) {
         	//thx Mage_Tax_Helper_Data->getShippingPrice for this "nice" solution
 	        $pseudoProduct = new Varien_Object();
-	        $pseudoProduct->setTaxClassId(Mage::helper('tax')->getShippingTaxClass($store));
+	        $pseudoProduct->setTaxClassId(Mage::helper('tax')->getShippingTaxClass($this->_store->getId()));
         	$shipping_price = Mage::helper('tax')->getPrice($pseudoProduct, $shipping_price, false, null,null,null,null,true);
         	$rate->setPrice($shipping_price);
         }

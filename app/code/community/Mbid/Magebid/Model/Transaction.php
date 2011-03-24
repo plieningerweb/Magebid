@@ -67,7 +67,7 @@ class Mbid_Magebid_Model_Transaction extends Mage_Core_Model_Abstract
 		{
 			//try to find an product with same sku like ebay auction
 			$product = Mage::getModel('catalog/product')->loadByAttribute('sku',$transaction_array['product_sku']);
-			if($product->getId())
+			if($product && $product->getId())
 				$transaction_array['product_id'] = $product->getId();
 			unset($product);
 		}
@@ -391,20 +391,20 @@ class Mbid_Magebid_Model_Transaction extends Mage_Core_Model_Abstract
 		}
 
 		//Make the GetOrderTransactions-Call
+		$results = false;
 		if (count($order_ids)>0)
 		{
 			$results = Mage::getModel('magebid/ebay_transaction')->getOrderTransactions($order_ids);
 		}
 
 		//For every order-result
-		if (count($results)>0)
+		if (is_array($results) && count($results)>0)
 		{
 			foreach ($results as $result)
 			{
 				//get every transaction for an ebay_order_id
 				$transactions = $this->getCollection();
 				$transactions->addFieldToFilter('ebay_order_id', $result['ebay_order_id']);
-				$transactions->load();
 
 				//Save the order-result informations for every transaction
 				foreach ($transactions as $transaction)
