@@ -193,24 +193,26 @@ class Mbid_Magebid_Model_Mysql4_Auction extends Mage_Core_Model_Mysql4_Abstract
 			//Save Payment Data
 			$payment_methods = $object->getPaymentMethod();
 
-			foreach ($payment_methods as $value)
-			{
-				if ($value['delete']!=1)
+			if(is_array($payment_methods) && !empty($payment_methods)) {
+				foreach ($payment_methods as $value)
 				{
-					$data = array(
-						'magebid_auction_id' =>$object->getId(),
-						'code' => $value['payment_method'],
-						);
-
-						Mage::getModel('magebid/payments')
-								->setData($data)
-									->save();
+					if ($value['delete']!=1)
+					{
+						$data = array(
+							'magebid_auction_id' =>$object->getId(),
+							'code' => $value['payment_method'],
+							);
+	
+							Mage::getModel('magebid/payments')
+									->setData($data)
+										->save();
+					}
+					else
+					{
+	
+					}
 				}
-				else
-				{
-
-				}
-			}
+			}				
 	}
 
     /**
@@ -229,20 +231,22 @@ class Mbid_Magebid_Model_Mysql4_Auction extends Mage_Core_Model_Mysql4_Abstract
 			//Save Shipping Data
 			$shipping_methods = $object->getShippingMethod();
 
-			foreach ($shipping_methods as $value)
-			{
-				if ($value['delete']!=1)
+			if(is_array($shipping_methods) && !empty($shipping_methods)) {
+				foreach ($shipping_methods as $value)
 				{
-					$data = array(
-						'magebid_auction_id' =>$object->getId(),
-						'code' => $value['shipping_method'],
-						'price' => $value['price'],
-						'add_price' => $value['add_price'],
-						);
-
-						Mage::getModel('magebid/shipping')
-								->setData($data)
-									->save();
+					if ($value['delete']!=1)
+					{
+						$data = array(
+							'magebid_auction_id' =>$object->getId(),
+							'code' => $value['shipping_method'],
+							'price' => $value['price'],
+							'add_price' => $value['add_price'],
+							);
+	
+							Mage::getModel('magebid/shipping')
+									->setData($data)
+										->save();
+					}
 				}
 			}
 	}
