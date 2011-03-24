@@ -374,6 +374,8 @@ class Mbid_Magebid_Model_Order_Create extends Mage_Adminhtml_Model_Sales_Order_C
 			//if product is existing in shop
 			if($transaction->getProductId() > 0)
 			{
+				if(!isset($items[$transaction->getProductId()]['qty']))
+					$items[$transaction->getProductId()]['qty'] = 0;
 				$items[$transaction->getProductId()]['qty'] += $transaction->getQuantity();
 				$items[$transaction->getProductId()]['single_price'] = $transaction->getSinglePrice();
 			}
