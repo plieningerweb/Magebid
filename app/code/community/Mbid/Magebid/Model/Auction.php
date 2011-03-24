@@ -67,11 +67,13 @@ class Mbid_Magebid_Model_Auction extends Mage_Core_Model_Abstract
 		$Export = Mage::getModel('magebid/export');
 
 		$data = array();
-		//later:
 		//$data['product_id'] = $this->_product->getId();
 		//$data['product_sku'] = $this->_product->getSku();
-		$data['product_id'] = 1;
-		$data['product_sku'] = '001';
+		//@TODO	TODO	i think we should not set this yet, because if yes
+		//we cant update the product_id later on (when we want to change the "connection", e.g.)
+		//otherwise (without setting them yet), every transaction is checked at the creation time
+		$data['product_id'] = null;
+		$data['product_sku'] = null;
 
 		//set initial status
 		$data['magebid_ebay_status_id'] = Mbid_Magebid_Model_Auction::AUCTION_STATUS_AUTOMATICINSERT;
