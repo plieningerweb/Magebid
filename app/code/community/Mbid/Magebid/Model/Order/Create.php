@@ -468,7 +468,7 @@ class Mbid_Magebid_Model_Order_Create extends Mage_Adminhtml_Model_Sales_Order_C
 				$this->_order_item->setPrice($item['single_price']);
 			}
 
-			if(isset($item['sku']) && $item['sku'] != '')
+			if(isset($item['sku']))
 				$this->_order_item->setSku($item['sku']);
 
 			if(isset($item['title']))
