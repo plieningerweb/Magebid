@@ -332,6 +332,8 @@ class Mbid_Magebid_Model_Transaction extends Mage_Core_Model_Abstract
      */
 	public function tryCreateMultipleItemOrders()
 	{
+		$bool = true;
+		
 		//Get different eBay Orders which are not transformed into magento orders
 		$orders = $this->getResource()->getDifferentOrders();
 
@@ -365,11 +367,11 @@ class Mbid_Magebid_Model_Transaction extends Mage_Core_Model_Abstract
 
 				//Check if order state should be changed
 				Mage::getModel('magebid/order_status')->setEbayStatus($order,$order->getStatus(),'',true);
-
-				return true;
 			}
-			else return false;
+			else $bool = false;
 		}
+		
+		return $bool;
 	}
 
 
