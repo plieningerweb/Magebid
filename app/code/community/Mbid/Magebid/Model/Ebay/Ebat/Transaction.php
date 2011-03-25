@@ -161,7 +161,7 @@ class Mbid_Magebid_Model_Ebay_Ebat_Transaction extends Mage_Core_Model_Abstract
 			'payment_method'=>$raw_order->CheckoutStatus->PaymentMethod,
 			'payment_status'=>$raw_order->CheckoutStatus->eBayPaymentStatus,
 			'checkout_status'=>$raw_order->CheckoutStatus->Status,
-			'order_shipping_cost' => $raw_order-> ShippingServiceSelected->ShippingServiceCost->value,
+			'order_shipping_cost' => $raw_order->ShippingServiceSelected->ShippingServiceCost->value,
 			//@TODO TODO I dont think we need this, so i didnt implement it
 			//'order_shipping_add_cost' => $raw_order-> ShippingServiceSelected->ShippingServiceAdditionalCost->value,
 		);
