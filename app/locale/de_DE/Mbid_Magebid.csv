@@ -240,3 +240,4 @@
 "You must choose a profile","Sie müssen ein Profil auswählen"
 "The last update was too long ago. To be up to date, you have to update a second time.","Die letze Aktualiserung lag zu lange zurück. Um auf den aktuellen Stand zu sein müssen Sie ein zweites mal aktualisieren."
 "The last update was too long ago. There will be missing some orders.","Die letze Aktualisierung lag zu lange zurück. Es werden einige Bestellungen fehlen."
+"Missing Transaction/Products for order creation (different grand total)","Fehlende Transaktionen/Produkte zum Anlegen einer Bestellung (unterschiedliche Gesamtbeträge)"

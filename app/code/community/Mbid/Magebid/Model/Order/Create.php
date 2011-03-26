@@ -163,7 +163,19 @@ class Mbid_Magebid_Model_Order_Create extends Mage_Adminhtml_Model_Sales_Order_C
 
 		//Get Totals
 		$this->_quote->collectTotals();
-		$this->_quote->getTotals();
+		$_quote_totals = $this->_quote->getTotals();
+		
+		$order_total = (float) $this->_reference_transaction->getOrderTotal();
+		$quote_total = (float) $_quote_totals['grand_total']->getValue();
+		
+		//Check for ebay orders if grand total is the same (to prevent missing transactions in orders)
+		//(missing transactions caused e.g. because we started syncing today, so older transactions are not synced)
+		//php fix for floats ($order_total != $quote_total does not work)
+		if($order_total > 0 && ($order_total - $quote_total) > .001) {
+			Mage::getModel('magebid/log')->logError("order-create","ebay order ".$this->_reference_transaction->getEbayOrderId(),'ebay order total:'.var_export($order_total,true).', ebay quote total:'.var_export($quote_total,true).', difference: '.var_export($order_total - $quote_total,true),'quote totals: '.var_export($_quote_totals,true),'different grand total');
+			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('magebid')->__('Missing Transaction/Products for order creation (different grand total)'));
+			return false;			
+		}
 
 		//Save quote
 		try
@@ -542,7 +554,7 @@ class Mbid_Magebid_Model_Order_Create extends Mage_Adminhtml_Model_Sales_Order_C
 			$shipping_price = $shipping_price+$transaction->getShippingCost();
 
 			//check if order shipping cost overrides the shipping cost of our transactions
-			if($transaction->getOrderShippingCost() > 0)
+			if($transaction->getOrderShippingCost() !== null)
 			{
 				$shipping_price = $transaction->getOrderShippingCost();
 				break;
